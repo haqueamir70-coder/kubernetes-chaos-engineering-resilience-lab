@@ -4,6 +4,8 @@ kind: StressChaos
 metadata:
   name: resilience-api-cpu-stress
   namespace: resilience-lab
+  labels:
+    app.kubernetes.io/part-of: resilience-lab
 spec:
   mode: one
   selector:
