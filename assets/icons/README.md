@@ -1,6 +1,6 @@
 # Brand icon assets and attribution
 
-These SVGs are used only to identify technologies in the project's architecture diagrams.
+These SVG assets identify technologies in the project's architecture diagrams. They are included for documentation and learning purposes.
 
 ## Simple Icons assets
 
@@ -16,18 +16,12 @@ The following marks are vendored from the Simple Icons project. Each source revi
 
 Upstream project: [simple-icons/simple-icons](https://github.com/simple-icons/simple-icons). Review its [usage guidance and legal disclaimer](https://github.com/simple-icons/simple-icons#usage) before reusing these marks elsewhere.
 
-## Azure Kubernetes Service icon
+## Azure Kubernetes Service visual
 
-The AKS service icon used in the diagrams is sourced from the July 2026 Azure Architecture Icons collection:
+`azure-aks.svg` is a small project-authored Azure-blue Kubernetes service marker used to avoid a fragile third-party image dependency in the diagrams. It is **not** an official Microsoft Azure product icon and should not be presented as one. The diagram labels the service explicitly as Azure Kubernetes Service (AKS).
 
-- [Azure Kubernetes Services SVG](https://az-icons.com/images/kubernetes-services/icon.svg)
-- [Icon catalogue entry](https://az-icons.com/icon/kubernetes-services)
-- [Microsoft Azure Architecture Center icon guidance](https://learn.microsoft.com/en-us/azure/architecture/icons/)
-
-Microsoft permits its architecture icons in architecture diagrams, training materials and documentation. Keep the product name near the icon. Do not crop, flip, rotate or distort the icon. Microsoft product names and marks remain the property of Microsoft.
+For official Microsoft architecture icon assets and usage guidance, consult the [Microsoft Azure Architecture Center](https://learn.microsoft.com/en-us/azure/architecture/icons/).
 
 ## How diagrams load icons
 
-The editable diagrams.net files reference the committed Simple Icons assets through this repository's raw GitHub URLs. The Azure Kubernetes Service icon is referenced from the Azure icon catalogue. Open the diagrams with an internet connection so the image shapes can resolve.
-
-The SVG previews inline the Simple Icons paths and use the Azure service icon as an image reference. If you fork or rename the repository, update the raw GitHub URLs in the `.drawio` source files.
+The editable diagrams.net files reference the committed Simple Icons assets and the project-authored AKS marker through this repository's raw GitHub URLs. Open the diagrams with an internet connection so the image shapes can resolve. If you fork or rename the repository, update the raw GitHub URLs in the `.drawio` source files.
