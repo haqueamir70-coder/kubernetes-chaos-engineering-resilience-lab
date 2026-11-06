@@ -1,0 +1,15 @@
+# LAB ONLY. Requires Chaos Mesh and an explicitly scoped namespace.
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: resilience-api-pod-kill
+  namespace: resilience-lab
+spec:
+  action: pod-kill
+  mode: one
+  selector:
+    namespaces:
+      - resilience-lab
+    labelSelectors:
+      app.kubernetes.io/name: resilience-api
+  duration: "30s"
