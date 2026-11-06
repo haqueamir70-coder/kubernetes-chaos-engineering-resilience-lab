@@ -96,9 +96,14 @@ For monitoring installation, Chaos Mesh configuration and teardown, follow the [
 
 ## Observability and live evidence
 
-The repository includes a provisioned Grafana dashboard, Prometheus scrape configuration and alert rules. The dashboard is version-controlled in [monitoring/grafana/dashboards](monitoring/grafana/dashboards/); provisioning and scrape assumptions are documented in [monitoring/README.md](monitoring/README.md).
+The repository includes a provisioned Grafana dashboard, Prometheus scrape configuration and alert rules. Install the local stack using the [Grafana and Prometheus deployment guide](monitoring/INSTALL.md). The dashboard is version-controlled in [monitoring/grafana/dashboards](monitoring/grafana/dashboards/).
+
+<p align="center">
+<img src="monitoring/grafana/dashboard-layout-preview.svg" alt="Grafana dashboard layout preview with request rate, error ratio, p95 latency, target health, throughput and latency charts" width="100%">
+</p>
 
 - [Grafana dashboard JSON](monitoring/grafana/dashboards/resilience-overview.json)
+- [Install Prometheus and Grafana](monitoring/INSTALL.md)
 - [Prometheus scrape configuration](monitoring/prometheus/prometheus.yml)
 - [Prometheus alert rules](monitoring/prometheus/alerts.yml)
 - [Chaos experiment templates](chaos/README.md)
