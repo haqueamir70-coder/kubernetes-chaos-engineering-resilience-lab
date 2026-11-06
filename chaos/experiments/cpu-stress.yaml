@@ -1,0 +1,18 @@
+# LAB ONLY. Apply only after measuring a baseline and confirming resource limits.
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: resilience-api-cpu-stress
+  namespace: resilience-lab
+spec:
+  mode: one
+  selector:
+    namespaces:
+      - resilience-lab
+    labelSelectors:
+      app.kubernetes.io/name: resilience-api
+  stressors:
+    cpu:
+      workers: 1
+      load: 50
+  duration: "30s"
