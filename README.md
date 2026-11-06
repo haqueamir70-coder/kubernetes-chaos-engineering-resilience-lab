@@ -14,7 +14,7 @@ A production-minded chaos engineering reference platform for Kubernetes and Azur
 ![Grafana](https://img.shields.io/badge/Dashboards-Grafana-F46800?logo=grafana&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-[Architecture](docs/architecture.md) · [Quick Start](docs/getting-started.md) · [Experiments](docs/experiments.md) · [Runbooks](docs/runbooks/) · [Security](docs/security.md)
+[Architecture](docs/architecture.md) · [Quick Start](docs/getting-started.md) · [Experiments](docs/experiments.md) · [Runbooks](docs/runbooks/) · [Security](docs/security.md) · [50 Interview Q&A + Scenarios](docs/interview-prep/50-questions-and-real-world-scenarios.md)
 
 </div>
 
