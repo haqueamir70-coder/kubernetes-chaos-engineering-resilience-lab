@@ -1,12 +1,14 @@
-# LAB ONLY. Restrict to traffic matching resilience-lab app pods.
+# LAB ONLY. Restrict to one pod in the dedicated lab namespace.
 apiVersion: chaos-mesh.org/v1alpha1
 kind: NetworkChaos
 metadata:
   name: resilience-api-network-delay
   namespace: resilience-lab
+  labels:
+    app.kubernetes.io/part-of: resilience-lab
 spec:
   action: delay
-  mode: all
+  mode: one
   selector:
     namespaces:
       - resilience-lab
@@ -15,6 +17,6 @@ spec:
   delay:
     latency: "100ms"
     correlation: "25"
-    jitter: "20ms"
+    jitter: "10ms"
   duration: "30s"
   direction: to
