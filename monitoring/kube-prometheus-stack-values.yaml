@@ -1,0 +1,70 @@
+prometheus:
+  prometheusSpec:
+    scrapeInterval: 15s
+    evaluationInterval: 15s
+    additionalScrapeConfigs:
+      - job_name: resilience-api
+        metrics_path: /metrics
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names:
+                - resilience-lab
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+            action: keep
+            regex: resilience-api
+          - source_labels: [__meta_kubernetes_pod_phase]
+            action: keep
+            regex: Running
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            action: keep
+            regex: http
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
+    additionalPrometheusRulesMap:
+      resilience-api:
+        groups:
+          - name: resilience-api
+            rules:
+              - alert: ResilienceApiHighErrorRatio
+                expr: |
+                  (
+                    sum(rate(http_requests_total{status=~"5.."}[5m]))
+                    /
+                    clamp_min(sum(rate(http_requests_total[5m])), 0.001)
+                  ) > 0.01
+                for: 2m
+                labels:
+                  severity: warning
+                annotations:
+                  summary: Resilience API error ratio is above 1%
+              - alert: ResilienceApiHighP95Latency
+                expr: |
+                  histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket[5m]))) > 0.3
+                for: 3m
+                labels:
+                  severity: warning
+                annotations:
+                  summary: Resilience API p95 latency exceeds 300 ms
+              - alert: ResilienceApiNoScrape
+                expr: up{job="resilience-api"} == 0
+                for: 1m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: Prometheus cannot scrape the resilience API
+
+grafana:
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      labelValue: "1"
+      searchNamespace: ALL
+      provider:
+        allowUiUpdates: false
+        foldersFromFilesStructure: false
+  defaultDashboardsEnabled: true
