@@ -1,0 +1,33 @@
+name: Observability and chaos asset validation
+
+on:
+  pull_request:
+    paths:
+      - "monitoring/**"
+      - "chaos/**"
+      - "scripts/validate-observability.py"
+      - ".github/workflows/observability-validation.yml"
+  push:
+    branches: [main]
+    paths:
+      - "monitoring/**"
+      - "chaos/**"
+      - "scripts/validate-observability.py"
+      - ".github/workflows/observability-validation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-assets:
+    name: Validate dashboards and experiment guardrails
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate Grafana JSON and chaos safety boundaries
+        run: python scripts/validate-observability.py
