@@ -1,26 +1,28 @@
 # Architecture and design
 
-## Diagram set
+## Architecture diagrams
 
-These diagrams are maintained as source files in this repository. SVGs are rendered previews for GitHub; matching `.drawio` files are editable in [diagrams.net](https://app.diagrams.net/).
+The diagrams are maintained as editable diagrams.net source files and rendered SVG previews.
 
 ### 1. Platform architecture
 
 ![Platform architecture](diagrams/01-platform-architecture.svg)
 
-[Open editable source](diagrams/01-platform-architecture.drawio)
+[Editable Draw.io source](diagrams/01-platform-architecture.drawio)
 
 ### 2. Chaos experiment lifecycle
 
 ![Chaos experiment lifecycle](diagrams/02-chaos-experiment-lifecycle.svg)
 
-[Open editable source](diagrams/02-chaos-experiment-lifecycle.drawio)
+[Editable Draw.io source](diagrams/02-chaos-experiment-lifecycle.drawio)
 
 ### 3. Observability and SLO evidence flow
 
 ![Observability and SLO flow](diagrams/03-observability-and-slo-flow.svg)
 
-[Open editable source](diagrams/03-observability-and-slo-flow.drawio)
+[Editable Draw.io source](diagrams/03-observability-and-slo-flow.drawio)
+
+Brand icon sources and usage notes are documented in [assets/icons/README.md](../assets/icons/README.md).
 
 ## System purpose
 
