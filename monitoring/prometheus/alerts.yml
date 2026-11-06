@@ -1,0 +1,41 @@
+groups:
+  - name: resilience-api
+    rules:
+      - alert: ResilienceApiHighErrorRatio
+        expr: |
+          (
+            sum(rate(http_requests_total{status=~"5.."}[5m]))
+            /
+            clamp_min(sum(rate(http_requests_total[5m])), 0.001)
+          ) > 0.01
+        for: 2m
+        labels:
+          severity: warning
+          service: resilience-api
+        annotations:
+          summary: Resilience API error ratio is above 1%
+          description: More than 1% of requests returned HTTP 5xx for at least two minutes.
+
+      - alert: ResilienceApiHighP95Latency
+        expr: |
+          histogram_quantile(
+            0.95,
+            sum by (le) (rate(http_request_duration_seconds_bucket[5m]))
+          ) > 0.3
+        for: 3m
+        labels:
+          severity: warning
+          service: resilience-api
+        annotations:
+          summary: Resilience API p95 latency exceeds 300 ms
+          description: The five-minute p95 request latency exceeded the example 300 ms lab objective.
+
+      - alert: ResilienceApiNoScrape
+        expr: up{job="resilience-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: resilience-api
+        annotations:
+          summary: Prometheus cannot scrape the resilience API
+          description: The API target has been unavailable to Prometheus for at least one minute.
