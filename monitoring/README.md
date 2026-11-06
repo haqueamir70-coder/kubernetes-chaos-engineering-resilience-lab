@@ -2,6 +2,10 @@
 
 This folder contains version-controlled Prometheus scrape configuration, alert rules, Grafana data-source provisioning and a prebuilt service-health dashboard.
 
+## Quick deployment
+
+For a reproducible local installation with Helm, follow [INSTALL.md](INSTALL.md). The chart values configure the API scrape job, example alerts and Grafana dashboard sidecar.
+
 ## Included
 
 - Prometheus scrapes the `resilience-api` pods in the `resilience-lab` namespace through Kubernetes service discovery.
