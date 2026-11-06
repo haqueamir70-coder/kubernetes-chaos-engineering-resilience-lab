@@ -1,0 +1,13 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+.venv/
+__pycache__/
+.pytest_cache/
+.coverage
+htmlcov/
+.env
+.DS_Store
+*.log
