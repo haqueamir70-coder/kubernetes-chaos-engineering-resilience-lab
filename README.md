@@ -2,72 +2,78 @@
 
 # Kubernetes Chaos Engineering & Resilience Lab
 
-**Prove resilience before incidents prove otherwise.**
+### Controlled failure. Measurable recovery.
 
-A production-minded chaos engineering reference platform for Kubernetes and Azure Kubernetes Service (AKS). Run controlled failure experiments, measure service-level objectives, verify recovery, and turn resilience findings into actionable engineering work.
+A hands-on Kubernetes and Azure Kubernetes Service (AKS) lab for testing workload resilience through scoped fault injection, Prometheus telemetry, Grafana dashboards and SLO-based recovery evidence.
+
+<p>
+<a href="docs/getting-started.md"><strong>Get started</strong></a> ·
+<a href="docs/architecture.md"><strong>Architecture</strong></a> ·
+<a href="docs/experiments.md"><strong>Run experiments</strong></a> ·
+<a href="docs/interview-prep/50-questions-and-real-world-scenarios.md"><strong>Interview guide</strong></a>
+</p>
 
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-1.30%2B-326CE5?logo=kubernetes&logoColor=white)
-![Azure](https://img.shields.io/badge/Azure-AKS-0078D4?logo=microsoftazure&logoColor=white)
+![AKS](https://img.shields.io/badge/Azure-AKS-0078D4?logo=microsoftazure&logoColor=white)
 ![Terraform](https://img.shields.io/badge/IaC-Terraform-844FBA?logo=terraform&logoColor=white)
-![Chaos Mesh](https://img.shields.io/badge/Chaos-Chaos%20Mesh-111827)
-![Prometheus](https://img.shields.io/badge/Metrics-Prometheus-E6522C?logo=prometheus&logoColor=white)
-![Grafana](https://img.shields.io/badge/Dashboards-Grafana-F46800?logo=grafana&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
-
-[Architecture](docs/architecture.md) · [Diagram source files](docs/diagrams/README.md) · [Quick Start](docs/getting-started.md) · [Experiments](docs/experiments.md) · [Runbooks](docs/runbooks/) · [Security](docs/security.md) · [50 Interview Q&A + Scenarios](docs/interview-prep/50-questions-and-real-world-scenarios.md)
+![Chaos Mesh](https://img.shields.io/badge/Chaos-Chaos%20Mesh-24364B)
+![License](https://img.shields.io/badge/License-MIT-16A34A)
 
 </div>
 
-![Platform architecture](docs/diagrams/01-platform-architecture.svg)
+<p align="center">
+<img src="docs/diagrams/00-project-hero.svg" alt="Controlled chaos experiments, live telemetry and SLO recovery evidence" width="100%">
+</p>
 
-[Open the editable diagrams.net source files](docs/diagrams/README.md) · [Icon sources and attribution](assets/icons/README.md)
+---
 
+## Why this lab exists
 
-## Executive overview
+A Kubernetes deployment can look healthy until a pod, CPU resource or network path fails. This lab gives engineers a repeatable way to ask a better question:
 
-This repository demonstrates how a DevSecOps / SRE team can continuously validate Kubernetes workload resilience without experimenting on production systems. It combines an observable sample application, controlled fault injection, SLO-based evaluation, infrastructure-as-code patterns, and CI guardrails.
+> **When failure happens, does the service recover within its reliability objectives — and can we prove it?**
 
-**Engineering question:** when a pod disappears, CPU becomes constrained, or network latency increases, does the workload recover within its reliability objectives—and can the team prove it with telemetry?
+It combines an instrumented FastAPI workload, a disposable Kubernetes environment, controlled Chaos Mesh experiments and an evidence-driven reliability workflow. This is an educational reference implementation, not a production chaos platform.
 
-## Capability map
+## Engineering capabilities
 
-| Capability | Implementation | Outcome |
+| Capability | Implementation | Engineering outcome |
 |---|---|---|
-| Workload | FastAPI service with health/readiness endpoints | Observable target |
-| Platform | Kubernetes manifests + AKS Terraform starter | Repeatable lab infrastructure |
-| Chaos | Chaos Mesh templates | Controlled pod, CPU and network faults |
-| Observability | Prometheus metrics + Grafana dashboard | Availability, latency and error visibility |
-| Reliability | SLO definitions and experiment scorecard | Evidence-based assessment |
-| Delivery | GitHub Actions validation | Catch invalid changes |
-| Security | Least-privilege RBAC patterns, non-root container, policy guardrails | Reduced blast radius |
-| Operations | Pre-flight checklist and recovery runbooks | Safe, repeatable execution |
+| Kubernetes | Multi-replica workload, Service, probes and resource controls | Workload lifecycle and recovery behaviour |
+| Infrastructure as Code | Terraform starter for a dedicated AKS lab | Repeatable cloud provisioning |
+| Chaos engineering | Pod-kill, CPU-stress and network-fault templates | Controlled failure injection |
+| Observability | Prometheus metrics and Grafana provisioning | Request rate, errors and latency visibility |
+| SRE | SLI/SLO definitions and experiment scorecard | Evidence-based reliability assessment |
+| DevSecOps | GitHub Actions validation, container hardening and policy guardrails | Safer delivery practices |
+| Operations | Pre-flight checks, abort criteria and recovery runbooks | Repeatable operational execution |
 
-## Reference architecture
+## Architecture
 
-```mermaid
-flowchart LR
-  U[Load generator / User] --> S[FastAPI sample service]
-  S --> K[Kubernetes Service]
-  K --> P[Pods]
-  P --> M[Prometheus]
-  M --> G[Grafana dashboards]
-  C[Chaos Mesh controller] --> E[Scoped chaos experiments]
-  E -. faults .-> P
-  M --> V[SLO validation]
-  V --> R[Experiment report]
-  T[Terraform / AKS] --> K
-  CI[GitHub Actions] --> Q[Manifest + IaC checks]
-```
+<p align="center">
+<img src="docs/diagrams/01-platform-architecture.svg" alt="Platform architecture: delivery, AKS workload and observability layers" width="100%">
+</p>
 
-See [architecture and design decisions](docs/architecture.md) for trust boundaries, data flow, and deployment topology.
+**The control loop**
 
-## Quick start — local lab
+1. **Provision** — Terraform defines the isolated AKS lab; GitHub Actions validates code and infrastructure changes.
+2. **Deploy** — the FastAPI service runs behind a Kubernetes Service with three replicas and health probes.
+3. **Inject** — an operator runs one reviewed, time-bounded Chaos Mesh experiment against a narrowly selected workload.
+4. **Observe** — Prometheus collects request metrics; Grafana exposes service health, error ratio and latency.
+5. **Evaluate** — the scorecard compares baseline, fault impact and recovery against stated SLO targets.
 
-**Prerequisites:** Docker, kubectl, kind or minikube, and Python 3.12+ for local tests.
+Read the [architecture decisions and trust boundaries](docs/architecture.md), or open the [editable diagrams.net sources](docs/diagrams/README.md).
 
-```bash
-# Build and load the sample image into kind
+## Quick start — local Kubernetes
+
+The quickest path uses a local kind cluster. No Azure subscription is required for this workflow.
+
+**Prerequisites:** Docker, kind, kubectl and Python 3.12+ for local application tests.
+
+\`\`\`bash
+# Build the sample service
 docker build -t resilience-api:local .
+
+# Create a disposable cluster and load the image
 kind create cluster --name resilience-lab
 kind load docker-image resilience-api:local --name resilience-lab
 
@@ -75,85 +81,102 @@ kind load docker-image resilience-api:local --name resilience-lab
 kubectl apply -k platform/kubernetes/overlays/local
 kubectl -n resilience-lab rollout status deployment/resilience-api
 kubectl -n resilience-lab get pods,svc
+\`\`\`
 
-# Test the API
+Test the service:
+
+\`\`\`bash
 kubectl -n resilience-lab port-forward svc/resilience-api 8080:80
-# In another terminal:
+# In another terminal
 curl -fsS http://127.0.0.1:8080/health
 curl -fsS http://127.0.0.1:8080/metrics
-```
+\`\`\`
 
-Detailed setup, Chaos Mesh installation and teardown: [Getting Started](docs/getting-started.md).
+For monitoring installation, Chaos Mesh configuration and teardown, follow the [Getting Started guide](docs/getting-started.md).
 
-## Resilience experiments
+## Failure scenarios
 
-The starter includes scoped templates. **Do not apply chaos experiments to production.** Install Chaos Mesh only in a disposable lab cluster and review every manifest before execution.
-
-| Experiment | Failure mode | Expected control | Success evidence |
+| Experiment | Injected condition | Expected resilience mechanism | Evidence to capture |
 |---|---|---|---|
-| Pod kill | Target pod termination | Replicas + readiness probes | Replacement pod Ready; service recovers |
-| CPU stress | CPU contention | Requests/limits + autoscaling where configured | Latency and errors stay within SLO |
-| Network latency | Added request delay | Timeouts, retries, graceful degradation | Bounded p95 latency and recovery |
+| Pod termination | A selected pod is terminated | ReplicaSet replacement, readiness and Service routing | Replacement pod Ready; request continuity and recovery time |
+| CPU stress | CPU contention on selected workload | Requests/limits and application capacity controls | p95 latency, error ratio and CPU saturation |
+| Network fault | Added latency or packet loss | Timeouts, retries and graceful degradation | Request failures, latency impact and recovery |
 
-Experiment manifests live in [chaos/experiments](chaos/experiments/). Operational gates and abort conditions are documented in [experiments.md](docs/experiments.md).
+Templates live in [chaos/experiments](chaos/experiments/). Review [experiment safety gates](docs/experiments.md) before running any fault.
 
-## Reliability objectives — illustrative lab targets
+## Reliability objectives
 
-These are **example objectives**, not measured results or a production commitment.
+These are **illustrative lab targets**, not measured results, guarantees or claims of passing tests.
 
-| Indicator | Example objective | Measurement |
+| Indicator | Example target | Measurement |
 |---|---:|---|
 | Availability | ≥ 99.9% | Successful requests / total requests |
-| Request latency | p95 ≤ 300 ms | Histogram quantile |
+| Request latency | p95 ≤ 300 ms | Request-duration histogram |
 | Error rate | ≤ 0.1% | 5xx responses / total requests |
-| Recovery time | ≤ 60 seconds | Fault start to healthy service |
+| Recovery time | ≤ 60 seconds | Fault start to service recovery |
 
-The project does not claim these objectives have passed. Use the experiment scorecard in [docs/experiments.md](docs/experiments.md) to record measured outcomes.
+No pass result is claimed by default. Record actual observations, timestamps, impact and remediation in the [experiment scorecard](docs/experiments.md).
 
-## Repository structure
+## Safety model
 
-```text
+> **Use a disposable, dedicated cluster. Never run the supplied fault experiments against production or shared workloads.**
+
+- Use a dedicated namespace and lab cluster.
+- Review every experiment manifest before execution.
+- Keep selectors narrow and experiment duration bounded.
+- Define abort conditions and a recovery procedure before injecting a fault.
+- Restrict Chaos Mesh installation and experiment creation to trusted operators.
+- Review Terraform plans, Azure permissions, quotas and expected cost before provisioning.
+
+See the [security model](docs/security.md) and [operational runbooks](docs/runbooks/).
+
+## Repository map
+
+\`\`\`text
 .
-├── .github/workflows/       # CI validation pipeline
+├── .github/workflows/       # CI validation
 ├── app/                     # FastAPI service and tests
 ├── chaos/experiments/       # Scoped Chaos Mesh templates
-├── docs/                    # Architecture, setup, SLOs, security, runbooks
-├── infra/terraform/         # AKS platform starter
-├── monitoring/              # Prometheus rules and Grafana provisioning
-├── platform/kubernetes/     # Base manifests and local overlay
-├── policies/                # Policy-as-code guardrails
-├── scripts/                 # Validation helpers
-├── Dockerfile
-├── Makefile
-└── LICENSE
-```
+├── docs/
+│   ├── diagrams/             # SVG previews + editable Draw.io sources
+│   ├── interview-prep/       # 50 technical Q&A and scenarios
+│   └── runbooks/             # Operational procedures
+├── infra/terraform/          # AKS infrastructure starter
+├── monitoring/               # Prometheus rules and Grafana provisioning
+├── platform/kubernetes/     # Kubernetes base and local overlay
+├── policies/                 # Policy guardrails
+└── scripts/                  # Validation helpers
+\`\`\`
 
-## Engineering principles
+## Documentation
 
-1. **Safety before experimentation:** dedicated namespace, bounded duration, manual review and abort criteria.
-2. **Measure before and after:** capture baseline, inject one fault, observe, recover, and document.
-3. **Least privilege:** no cluster API permissions for the sample workload by default.
-4. **Reproducibility:** version-controlled manifests, Terraform, and documented commands.
-5. **Honest evidence:** separate design targets from observed measurements; never fabricate test results.
+| Guide | Contents |
+|---|---|
+| [Getting started](docs/getting-started.md) | Local lab, AKS setup, monitoring and cleanup |
+| [Architecture](docs/architecture.md) | Components, data flow, trust boundaries and design decisions |
+| [Experiments](docs/experiments.md) | Pre-flight checks, execution gates, SLO evaluation and scorecard |
+| [Security](docs/security.md) | RBAC, workload hardening and safety boundaries |
+| [Runbooks](docs/runbooks/) | Operational recovery procedures |
+| [Interview preparation](docs/interview-prep/50-questions-and-real-world-scenarios.md) | 50 technical questions with practical scenarios |
+| [Diagram sources](docs/diagrams/README.md) | Edit diagrams in diagrams.net |
+| [Icon attribution](assets/icons/README.md) | Brand asset sources and usage notes |
 
 ## Roadmap
 
-- [x] Repository structure, architecture and operational principles
-- [x] Sample API, probes, metrics and container hardening
+- [x] Sample API, health probes, metrics and container hardening
 - [x] Local Kubernetes deployment and scoped chaos templates
-- [x] Terraform AKS starter and CI validation
+- [x] AKS Terraform starter and CI validation
 - [ ] Automated experiment orchestration with approval gates
-- [ ] Measured benchmark reports from a real lab run
+- [ ] Publish measured benchmark reports from a completed lab run
 - [ ] Azure Monitor / Managed Prometheus integration
 - [ ] Signed artifacts and advanced policy enforcement
 
-## Portfolio value
+## About
 
-Designed to demonstrate skills relevant to **Senior DevSecOps Engineer, SRE, and Cloud Platform Engineer** roles: Kubernetes operations, AKS, Terraform, observability, SLO engineering, controlled failure testing, CI/CD security, and incident readiness.
+Built by **Aamir Haque** as a practical DevSecOps / SRE portfolio project.
 
-## Author
+[GitHub profile](https://github.com/haqueamir70-coder) · [Repository](https://github.com/haqueamir70-coder/kubernetes-chaos-engineering-resilience-lab)
 
-**Aamir Haque** · DevSecOps / Cloud Platform Engineering  
-GitHub: [@haqueamir70-coder](https://github.com/haqueamir70-coder)
+---
 
-> Educational reference implementation. Review cloud costs, permissions, quotas, and security controls before deploying. Never run fault injection against production or shared clusters without a formal change process and explicit authorization.
+<sub>Educational reference implementation. Review cloud costs, permissions, quotas and security controls before deployment. Never inject faults into production or shared clusters without formal authorization and an approved change process.</sub>
