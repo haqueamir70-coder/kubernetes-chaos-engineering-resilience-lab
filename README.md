@@ -69,7 +69,7 @@ The quickest path uses a local kind cluster. No Azure subscription is required f
 
 **Prerequisites:** Docker, kind, kubectl and Python 3.12+ for local application tests.
 
-\`\`\`bash
+```bash
 # Build the sample service
 docker build -t resilience-api:local .
 
@@ -81,18 +81,30 @@ kind load docker-image resilience-api:local --name resilience-lab
 kubectl apply -k platform/kubernetes/overlays/local
 kubectl -n resilience-lab rollout status deployment/resilience-api
 kubectl -n resilience-lab get pods,svc
-\`\`\`
+```
 
 Test the service:
 
-\`\`\`bash
+```bash
 kubectl -n resilience-lab port-forward svc/resilience-api 8080:80
 # In another terminal
 curl -fsS http://127.0.0.1:8080/health
 curl -fsS http://127.0.0.1:8080/metrics
-\`\`\`
+```
 
 For monitoring installation, Chaos Mesh configuration and teardown, follow the [Getting Started guide](docs/getting-started.md).
+
+## Observability and live evidence
+
+The repository includes a provisioned Grafana dashboard, Prometheus scrape configuration and alert rules. The dashboard is version-controlled in [monitoring/grafana/dashboards](monitoring/grafana/dashboards/); provisioning and scrape assumptions are documented in [monitoring/README.md](monitoring/README.md).
+
+- [Grafana dashboard JSON](monitoring/grafana/dashboards/resilience-overview.json)
+- [Prometheus scrape configuration](monitoring/prometheus/prometheus.yml)
+- [Prometheus alert rules](monitoring/prometheus/alerts.yml)
+- [Chaos experiment templates](chaos/README.md)
+- [Experiment evidence status and report template](docs/chaos-evidence.md)
+
+**Evidence integrity:** dashboard definitions and experiment manifests are committed, but no live chaos run or benchmark was executed as part of this repository update. Actual recovery claims require timestamped Grafana/Prometheus evidence from a real lab run.
 
 ## Failure scenarios
 
@@ -132,7 +144,7 @@ See the [security model](docs/security.md) and [operational runbooks](docs/runbo
 
 ## Repository map
 
-\`\`\`text
+```text
 .
 ├── .github/workflows/       # CI validation
 ├── app/                     # FastAPI service and tests
@@ -146,7 +158,7 @@ See the [security model](docs/security.md) and [operational runbooks](docs/runbo
 ├── platform/kubernetes/     # Kubernetes base and local overlay
 ├── policies/                 # Policy guardrails
 └── scripts/                  # Validation helpers
-\`\`\`
+```
 
 ## Documentation
 
