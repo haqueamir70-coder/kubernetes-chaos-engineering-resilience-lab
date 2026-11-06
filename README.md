@@ -18,6 +18,11 @@ A production-minded chaos engineering reference platform for Kubernetes and Azur
 
 </div>
 
+![Platform architecture](docs/diagrams/01-platform-architecture.svg)
+
+[Open the editable diagrams.net source files](docs/diagrams/README.md) · [Icon sources and attribution](assets/icons/README.md)
+
+
 ## Executive overview
 
 This repository demonstrates how a DevSecOps / SRE team can continuously validate Kubernetes workload resilience without experimenting on production systems. It combines an observable sample application, controlled fault injection, SLO-based evaluation, infrastructure-as-code patterns, and CI guardrails.
