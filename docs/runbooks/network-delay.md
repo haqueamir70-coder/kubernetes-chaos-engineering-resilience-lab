@@ -14,7 +14,7 @@ A bounded network-delay experiment should reveal whether client timeouts, retrie
 
 ## Execute
 
-Review [chaos/experiments/network-delay.yaml](../../../../chaos/experiments/network-delay.yaml), especially namespace, pod selector, direction, delay and duration. Apply only after approval:
+Review [chaos/experiments/network-delay.yaml](../../chaos/experiments/network-delay.yaml), especially namespace, pod selector, direction, delay and duration. Apply only after approval:
 
 ```bash
 kubectl apply -f chaos/experiments/network-delay.yaml
