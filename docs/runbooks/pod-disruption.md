@@ -20,7 +20,7 @@ kubectl -n resilience-lab get pods -l app=resilience-api -o wide
 kubectl -n resilience-lab get pdb
 ```
 
-Review [chaos/experiments/pod-kill.yaml](../../../../chaos/experiments/pod-kill.yaml), replace/confirm the selector and duration, then apply only after approval:
+Review [chaos/experiments/pod-kill.yaml](../../chaos/experiments/pod-kill.yaml), replace/confirm the selector and duration, then apply only after approval:
 
 ```bash
 kubectl apply -f chaos/experiments/pod-kill.yaml
