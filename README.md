@@ -176,7 +176,7 @@ For monitoring setup, Chaos Mesh installation and cleanup, follow [Getting Start
 - Review Terraform plan, Azure permissions, quotas and cost before provisioning.
 - Do not claim recovery success without timestamped telemetry evidence.
 
-See [security model](docs/security.md) and [operational runbooks](docs/runbooks/).
+See [security model](docs/security.md) and [chaos experiment guidance](chaos/README.md) · [getting started and cleanup](docs/getting-started.md).
 
 ## Repository map
 
