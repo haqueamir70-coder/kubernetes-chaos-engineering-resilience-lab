@@ -203,7 +203,7 @@ assets/icons/            Technology icon sources and attribution
 | [Architecture](docs/architecture.md) | Components, data flow and trust boundaries |
 | [Experiments](docs/experiments.md) | Hypotheses, pre-flight, abort criteria and scorecard |
 | [Security](docs/security.md) | RBAC, workload hardening and safety boundaries |
-| [Runbooks](docs/runbooks/) | Operational recovery procedures |
+| [Runbooks](docs/runbooks/README.md) | Pre-flight, pod, CPU and network experiment procedures |
 | [Chaos evidence](docs/chaos-evidence.md) | Evidence status and report template |
 | [Diagram sources](docs/diagrams/README.md) | Edit architecture diagrams in diagrams.net |
 | [Icon attribution](assets/icons/README.md) | Brand asset sources and usage notes |
