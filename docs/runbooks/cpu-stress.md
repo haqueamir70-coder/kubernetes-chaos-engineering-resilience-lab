@@ -14,7 +14,7 @@ A bounded CPU stress experiment should expose how resource requests/limits, sche
 
 ## Execute
 
-Review [chaos/experiments/cpu-stress.yaml](../../../../chaos/experiments/cpu-stress.yaml). Verify the target namespace, selector, CPU workers, load and duration. Apply only in the disposable lab:
+Review [chaos/experiments/cpu-stress.yaml](../../chaos/experiments/cpu-stress.yaml). Verify the target namespace, selector, CPU workers, load and duration. Apply only in the disposable lab:
 
 ```bash
 kubectl apply -f chaos/experiments/cpu-stress.yaml
